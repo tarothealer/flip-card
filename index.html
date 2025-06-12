@@ -42,9 +42,10 @@
 
     .cards {
       display: flex;
-      gap: 20px;
       justify-content: center;
+      gap: 40px; /* khoảng cách giữa 3 lá bài */
       flex-wrap: wrap;
+      margin-bottom: 20px;
     }
 
     .card-wrapper {
@@ -64,6 +65,20 @@
 
     .card-inner.flipped {
       transform: rotateY(180deg);
+    }
+
+    .card-inner.flipped .card-back {
+      box-shadow: 0 0 30px 10px rgba(255, 255, 200, 0.5);
+      animation: glow 1s ease-out;
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 0px rgba(255, 255, 200, 0);
+      }
+      100% {
+        box-shadow: 0 0 30px 10px rgba(255, 255, 200, 0.5);
+      }
     }
 
     .card-front, .card-back {
