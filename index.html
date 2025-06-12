@@ -130,4 +130,92 @@
   <p class="intro">Hãy chọn 3 lá bài và khám phá thông điệp dành cho bạn hôm nay!</p>
 
   <div class="cards" id="cardsContainer"></div>
-  <button id="shareBtn" onclick="shareResult()">📤 Chia sẻ kế
+  <button id="shareBtn" onclick="shareResult()">📤 Chia sẻ kết quả</button>
+  <footer>&copy; 2025 TarotHealer</footer>
+
+  <script>
+    const cardsData = [
+      {
+        text: "🔥 Sự chuyển hóa – Đừng sợ thay đổi, bạn đang tiến hóa.",
+        image: "https://media3.giphy.com/media/3oz8xGcTYUZpIOEAuc/giphy.gif"
+      },
+      {
+        text: "🌙 The Moon – Hãy tin vào trực giác của bạn.",
+        image: "https://media2.giphy.com/media/jvWYEqoq4DE3ZU9gZx/giphy.gif"
+      },
+      {
+        text: "🗝 The High Priestess – Bí mật & khám phá nội tâm.",
+        image: "https://media0.giphy.com/media/Vgquu9an3UZCS32Aov/giphy.gif"
+      },
+      {
+        text: "💖 The Lovers – Một sự kết nối sâu sắc sắp đến.",
+        image: "https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif"
+      },
+      {
+        text: "⚖️ Justice – Mọi hành động đều có hệ quả xứng đáng.",
+        image: "https://media.giphy.com/media/JQ8bYcFkkS3bG/giphy.gif"
+      }
+    ];
+
+    let chosenCards = [];
+    let flipped = 0;
+
+    function createCard() {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card-wrapper';
+
+      const inner = document.createElement('div');
+      inner.className = 'card-inner';
+
+      const front = document.createElement('div');
+      front.className = 'card-front';
+
+      const back = document.createElement('div');
+      back.className = 'card-back';
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      wrapper.appendChild(inner);
+
+      wrapper.addEventListener('click', function () {
+        if (inner.classList.contains('flipped')) return;
+
+        const random = cardsData[Math.floor(Math.random() * cardsData.length)];
+        const [title, message] = random.text.split("–");
+
+        back.innerHTML = `
+          <h3>${title}</h3>
+          <p>${message}</p>
+          <img src="${random.image}" alt="Card">
+        `;
+        inner.classList.add('flipped');
+        chosenCards.push(random.text);
+        flipped++;
+        if (flipped >= 3) {
+          document.getElementById("shareBtn").style.display = "inline-block";
+        }
+      });
+
+      return wrapper;
+    }
+
+    const container = document.getElementById("cardsContainer");
+    for (let i = 0; i < 3; i++) {
+      container.appendChild(createCard());
+    }
+
+    function shareResult() {
+      const text = chosenCards.join('\n\n');
+      if (navigator.share) {
+        navigator.share({
+          title: "3 Lá bài Tarot hôm nay của bạn:",
+          text: text,
+          url: window.location.href
+        });
+      } else {
+        alert("Trình duyệt không hỗ trợ chia sẻ trực tiếp.");
+      }
+    }
+  </script>
+</body>
+</html>
