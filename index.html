@@ -14,7 +14,7 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding-top: 40px;
+      padding-top: 50px;
       text-align: center;
     }
 
@@ -37,7 +37,7 @@
 
     p.intro {
       color: #555;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .cards {
@@ -120,22 +120,23 @@
       margin-top: 10px;
     }
 
-    #shareBtn, #musicToggleBtn {
-      margin-top: 20px;
-      padding: 12px 24px;
+    #shareBtn {
+      margin-top: 30px;
+      padding: 12px 28px;
       font-size: 16px;
       border: none;
       border-radius: 8px;
-      background: linear-gradient(135deg, #b2fefa, #0ed2f7);
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
       color: #fff;
-      box-shadow: 0 4px 12px rgba(14, 210, 247, 0.3);
+      box-shadow: 0 4px 12px rgba(102, 166, 255, 0.4);
       cursor: pointer;
-      transition: all 0.3s ease;
+      display: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    #shareBtn:hover, #musicToggleBtn:hover {
+    #shareBtn:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(14, 210, 247, 0.5);
+      box-shadow: 0 6px 16px rgba(102, 166, 255, 0.6);
     }
 
     #buy-section {
@@ -144,7 +145,7 @@
 
     #buy-section a {
       padding: 10px 20px;
-      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      background: linear-gradient(135deg, #66a6ff, #89f7fe);
       color: white;
       text-decoration: none;
       border-radius: 8px;
@@ -171,10 +172,8 @@
   <h1>Tarot Healer</h1>
   <p class="intro">Hãy chọn 3 lá bài và khám phá thông điệp dành cho bạn hôm nay!</p>
 
-  <button id="musicToggleBtn">🎵 Bật nhạc nền</button>
-  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_d0d3c7ce15.mp3?filename=healing-ambient-124008.mp3" loop></audio>
-
   <div class="cards" id="cardsContainer"></div>
+
   <button id="shareBtn" onclick="shareResult()">📤 Chia sẻ kết quả</button>
 
   <div id="buy-section">
@@ -267,17 +266,6 @@
         alert("Trình duyệt không hỗ trợ chia sẻ trực tiếp.");
       }
     }
-
-    document.getElementById("musicToggleBtn").addEventListener("click", function () {
-      const music = document.getElementById("bgMusic");
-      if (music.paused) {
-        music.play();
-        this.textContent = "🔇 Tắt nhạc";
-      } else {
-        music.pause();
-        this.textContent = "🎵 Bật nhạc nền";
-      }
-    });
   </script>
 </body>
 </html>
