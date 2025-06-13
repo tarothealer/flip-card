@@ -139,6 +139,27 @@
       box-shadow: 0 6px 16px rgba(102, 166, 255, 0.6);
     }
 
+    #buy-section {
+      margin-top: 20px;
+    }
+
+    #buy-section a {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #ff8a00, #e52e71);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(229, 46, 113, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #buy-section a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(229, 46, 113, 0.6);
+    }
+
     footer {
       margin-top: 60px;
       font-size: 13px;
@@ -152,7 +173,14 @@
   <p class="intro">Hãy chọn 3 lá bài và khám phá thông điệp dành cho bạn hôm nay!</p>
 
   <div class="cards" id="cardsContainer"></div>
+
   <button id="shareBtn" onclick="shareResult()">📤 Chia sẻ kết quả</button>
+
+  <div id="buy-section">
+    <p style="color:#444; font-size: 15px;">🎁 Muốn sở hữu một bộ bài như vậy?</p>
+    <a href="https://shope.ee/xxxxxxxx" target="_blank">🛍 Mua bộ bài Tarot pastel trên Shopee</a>
+  </div>
+
   <footer>&copy; 2025 TarotHealer</footer>
 
   <script>
@@ -209,7 +237,7 @@
           <h3>${title}</h3>
           <p>${message}</p>
           <img src="${random.image}" alt="Card">
-          <img src="https://drive.google.com/uc?export=view&id=1DqgJu28UGsmRZvIBww3tz8QKAWZlQDf-" alt="Extra" style="margin-top: 8px; width: 100%; border-radius: 8px;">
+          <img src="https://i.postimg.cc/26jMb6ch/4304.jpg" alt="Extra" style="margin-top: 8px; width: 100%; border-radius: 8px;">
         `;
         inner.classList.add('flipped');
         chosenCards.push(random.text);
