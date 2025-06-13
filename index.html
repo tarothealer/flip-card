@@ -63,4 +63,235 @@
       transition: transform 0.8s;
     }
 
-    .card-inner.fl
+    .card-wrapper:hover .card-inner:not(.flipped) {
+      transform: scale(1.03);
+    }
+
+    .card-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-inner.flipped .card-back {
+      box-shadow: 0 0 30px 10px rgba(100, 200, 255, 0.6);
+      animation: glow 1s ease-out;
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 0px rgba(100, 200, 255, 0);
+      }
+      100% {
+        box-shadow: 0 0 30px 10px rgba(100, 200, 255, 0.6);
+      }
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .card-front {
+      background-image: url('https://i.postimg.cc/26jMb6ch/4304.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card-back {
+      background: white;
+      transform: rotateY(180deg);
+      text-align: center;
+      padding: 10px;
+    }
+
+    .card-back h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+      color: #2e3a59;
+    }
+
+    .card-back p {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .card-back img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    #shareBtn {
+      margin-top: 30px;
+      padding: 12px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(102, 166, 255, 0.4);
+      cursor: pointer;
+      display: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #shareBtn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(102, 166, 255, 0.6);
+    }
+
+    #buy-section {
+      margin-top: 20px;
+    }
+
+    #buy-section a {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(102, 166, 255, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #buy-section a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(102, 166, 255, 0.6);
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      .cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .card-wrapper {
+        width: 80vw;
+        height: auto;
+      }
+
+      .card-back img {
+        max-height: 200px;
+        object-fit: contain;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tarot Healer</h1>
+  <p class="intro">Hãy chọn 3 lá bài và khám phá thông điệp dành cho bạn hôm nay!</p>
+
+  <div class="cards" id="cardsContainer"></div>
+
+  <button id="shareBtn" onclick="shareResult()">📤 Chia sẻ kết quả</button>
+
+  <div id="buy-section">
+    <p style="color:#444; font-size: 15px;">🎁 Muốn sở hữu một bộ bài như vậy?</p>
+    <a href="https://shope.ee/xxxxxxxx" target="_blank">Mua bộ bài Pastel Prism Tarot trên Shopee</a>
+  </div>
+
+  <footer>&copy; 2025 TarotHealer</footer>
+
+  <audio id="flipSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_09f2a67bfb.mp3"></audio>
+
+  <script>
+    const cardsData = [
+      {
+        text: "🔥 Sự chuyển hóa – Đừng sợ thay đổi, bạn đang tiến hóa.",
+        image: "https://media3.giphy.com/media/3oz8xGcTYUZpIOEAuc/giphy.gif"
+      },
+      {
+        text: "🌙 The Moon – Hãy tin vào trực giác của bạn.",
+        image: "https://media2.giphy.com/media/jvWYEqoq4DE3ZU9gZx/giphy.gif"
+      },
+      {
+        text: "🗝 The High Priestess – Bí mật & khám phá nội tâm.",
+        image: "https://media0.giphy.com/media/Vgquu9an3UZCS32Aov/giphy.gif"
+      },
+      {
+        text: "💖 The Lovers – Một sự kết nối sâu sắc sắp đến.",
+        image: "https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif"
+      },
+      {
+        text: "⚖️ Justice – Mọi hành động đều có hệ quả xứng đáng.",
+        image: "https://media.giphy.com/media/JQ8bYcFkkS3bG/giphy.gif"
+      }
+    ];
+
+    let chosenCards = [];
+    let flipped = 0;
+
+    function createCard() {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card-wrapper';
+
+      const inner = document.createElement('div');
+      inner.className = 'card-inner';
+
+      const front = document.createElement('div');
+      front.className = 'card-front';
+
+      const back = document.createElement('div');
+      back.className = 'card-back';
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      wrapper.appendChild(inner);
+
+      wrapper.addEventListener('click', function () {
+        if (inner.classList.contains('flipped')) return;
+
+        document.getElementById("flipSound").play();
+        const random = cardsData[Math.floor(Math.random() * cardsData.length)];
+        const [title, message] = random.text.split("–");
+
+        back.innerHTML = `
+          <h3>${title}</h3>
+          <p>${message}</p>
+          <img src="${random.image}" alt="Card">
+        `;
+        inner.classList.add('flipped');
+        chosenCards.push(random.text);
+        flipped++;
+        if (flipped === 3) {
+          alert("✨ Bạn đã rút đủ 3 lá bài hôm nay!");
+          document.getElementById("shareBtn").style.display = "inline-block";
+        }
+      });
+
+      return wrapper;
+    }
+
+    const container = document.getElementById("cardsContainer");
+    for (let i = 0; i < 3; i++) {
+      container.appendChild(createCard());
+    }
+
+    function shareResult() {
+      const text = chosenCards.join('\n\n');
+      if (navigator.share) {
+        navigator.share({
+          title: "3 Lá bài Tarot hôm nay của bạn:",
+          text: text,
+          url: window.location.href
+        });
+      } else {
+        alert("Trình duyệt không hỗ trợ chia sẻ trực tiếp.");
+      }
+    }
+  </script>
+</body>
+</html>
