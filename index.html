@@ -14,7 +14,7 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding-top: 50px;
+      padding-top: 40px;
       text-align: center;
     }
 
@@ -37,7 +37,7 @@
 
     p.intro {
       color: #555;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     .cards {
@@ -61,10 +61,6 @@
       position: relative;
       transform-style: preserve-3d;
       transition: transform 0.8s;
-    }
-
-    .card-wrapper:hover .card-inner:not(.flipped) {
-      transform: scale(1.03);
     }
 
     .card-inner.flipped {
@@ -124,23 +120,22 @@
       margin-top: 10px;
     }
 
-    #shareBtn {
-      margin-top: 30px;
-      padding: 12px 28px;
+    #shareBtn, #musicToggleBtn {
+      margin-top: 20px;
+      padding: 12px 24px;
       font-size: 16px;
       border: none;
       border-radius: 8px;
-      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      background: linear-gradient(135deg, #b2fefa, #0ed2f7);
       color: #fff;
-      box-shadow: 0 4px 12px rgba(102, 166, 255, 0.4);
+      box-shadow: 0 4px 12px rgba(14, 210, 247, 0.3);
       cursor: pointer;
-      display: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.3s ease;
     }
 
-    #shareBtn:hover {
+    #shareBtn:hover, #musicToggleBtn:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(102, 166, 255, 0.6);
+      box-shadow: 0 6px 16px rgba(14, 210, 247, 0.5);
     }
 
     #buy-section {
@@ -169,24 +164,6 @@
       font-size: 13px;
       color: #888;
     }
-
-    @media (max-width: 600px) {
-      .cards {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-
-      .card-wrapper {
-        width: 80vw;
-        height: auto;
-      }
-
-      .card-back img {
-        max-height: 200px;
-        object-fit: contain;
-      }
-    }
   </style>
 </head>
 <body>
@@ -194,8 +171,10 @@
   <h1>Tarot Healer</h1>
   <p class="intro">Hãy chọn 3 lá bài và khám phá thông điệp dành cho bạn hôm nay!</p>
 
-  <div class="cards" id="cardsContainer"></div>
+  <button id="musicToggleBtn">🎵 Bật nhạc nền</button>
+  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_d0d3c7ce15.mp3?filename=healing-ambient-124008.mp3" loop></audio>
 
+  <div class="cards" id="cardsContainer"></div>
   <button id="shareBtn" onclick="shareResult()">📤 Chia sẻ kết quả</button>
 
   <div id="buy-section">
@@ -204,8 +183,6 @@
   </div>
 
   <footer>&copy; 2025 TarotHealer</footer>
-
-  <audio id="flipSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_09f2a67bfb.mp3"></audio>
 
   <script>
     const cardsData = [
@@ -254,7 +231,6 @@
       wrapper.addEventListener('click', function () {
         if (inner.classList.contains('flipped')) return;
 
-        document.getElementById("flipSound").play();
         const random = cardsData[Math.floor(Math.random() * cardsData.length)];
         const [title, message] = random.text.split("–");
 
@@ -266,8 +242,7 @@
         inner.classList.add('flipped');
         chosenCards.push(random.text);
         flipped++;
-        if (flipped === 3) {
-          alert("✨ Bạn đã rút đủ 3 lá bài hôm nay!");
+        if (flipped >= 3) {
           document.getElementById("shareBtn").style.display = "inline-block";
         }
       });
@@ -292,6 +267,17 @@
         alert("Trình duyệt không hỗ trợ chia sẻ trực tiếp.");
       }
     }
+
+    document.getElementById("musicToggleBtn").addEventListener("click", function () {
+      const music = document.getElementById("bgMusic");
+      if (music.paused) {
+        music.play();
+        this.textContent = "🔇 Tắt nhạc";
+      } else {
+        music.pause();
+        this.textContent = "🎵 Bật nhạc nền";
+      }
+    });
   </script>
 </body>
 </html>
